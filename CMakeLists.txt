@@ -74,12 +74,21 @@ if(CUTTER_ENABLE_PYTHON)
     add_definitions(-DCUTTER_ENABLE_PYTHON)
 
     if(CUTTER_ENABLE_PYTHON_BINDINGS)
-        # 5.12.3 => 5.12
-        if("${Qt5_VERSION}" MATCHES "^([0-9]+\\.[0-9]+)\\.[0-9]+")
-            set(Shiboken2_VERSION_REQUIRED "${CMAKE_MATCH_1}")
-        else()
-            message(FATAL_ERROR "Failed to recognize Qt version")
-        endif()
+		if (CUTTER_QT6)
+			# 6.12.3 => 6.12
+			if("${Qt6_VERSION}" MATCHES "^([0-9]+\\.[0-9]+)\\.[0-9]+")
+				set(Shiboken2_VERSION_REQUIRED "${CMAKE_MATCH_1}")
+			else()
+				message(FATAL_ERROR "Failed to recognize Qt version")
+			endif()
+		else()
+			# 5.12.3 => 5.12
+			if("${Qt5_VERSION}" MATCHES "^([0-9]+\\.[0-9]+)\\.[0-9]+")
+				set(Shiboken2_VERSION_REQUIRED "${CMAKE_MATCH_1}")
+			else()
+				message(FATAL_ERROR "Failed to recognize Qt version")
+			endif()
+		endif()
         find_package(Shiboken2 "${Shiboken2_VERSION_REQUIRED}" REQUIRED)
         find_package(PySide2 "${Shiboken2_VERSION_REQUIRED}" REQUIRED)
 
